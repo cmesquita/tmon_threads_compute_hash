@@ -48,12 +48,12 @@ def computeHashTimeTaken():
 	for hashtimetaken in getHashList():
 		bodytextMin = '{"size":0,"query": {"bool": {"must":[{"match": {"hash": "'+hashtimetaken[0]+'"}},{"match": {"server": "'+hashtimetaken[1]+'"}},{"match": {"thread_id": "'+hashtimetaken[2]+'"}}]}},"aggs": {"min_time_taken": {"min": {"field" : "time_taken"}}}}'
 		bodytextMax = '{"size":0,"query": {"bool": {"must":[{"match": {"hash": "'+hashtimetaken[0]+'"}},{"match": {"server": "'+hashtimetaken[1]+'"}},{"match": {"thread_id": "'+hashtimetaken[2]+'"}}]}},"aggs": {"max_time_taken": {"max": {"field" : "time_taken"}}}}'
-		resMinTimeTaken = es.search(index="tmonthreads-2016.01.20" , doc_type="tmon-threads" ,  body=bodytextMin)	
-		resMaxTimeTaken = es.search(index="tmonthreads-2016.01.20" , doc_type="tmon-threads" ,  body=bodytextMax)
+		resMinTimeTaken = es.search(index=indexDateMasq , doc_type="tmon-threads" ,  body=bodytextMin)	
+		resMaxTimeTaken = es.search(index=indexDateMasq , doc_type="tmon-threads" ,  body=bodytextMax)
 		bodytextMinTimestamp='{"size":0,"query": {"bool": {"must":[{"match": {"hash": "'+hashtimetaken[0]+'"}},{"match": {"server": "'+hashtimetaken[1]+'"}},{"match": {"thread_id": "'+hashtimetaken[2]+'"}}]}},"aggs": {"min_date": {"min": {"field" : "date"}}}}'
 		bodytextMaxTimestamp='{"size":0,"query": {"bool": {"must":[{"match": {"hash": "'+hashtimetaken[0]+'"}},{"match": {"server": "'+hashtimetaken[1]+'"}},{"match": {"thread_id": "'+hashtimetaken[2]+'"}}]}},"aggs": {"max_date": {"max": {"field" : "date"}}}}'		
-		resMinTimestamp = es.search(index="tmonthreads-2016.01.20" , doc_type="tmon-threads" ,  body=bodytextMinTimestamp)
-		resMaxTimestamp = es.search(index="tmonthreads-2016.01.20" , doc_type="tmon-threads" ,  body=bodytextMaxTimestamp)
+		resMinTimestamp = es.search(index=indexDateMasq , doc_type="tmon-threads" ,  body=bodytextMinTimestamp)
+		resMaxTimestamp = es.search(index=indexDateMasq , doc_type="tmon-threads" ,  body=bodytextMaxTimestamp)
 		minTimeTaken=resMinTimeTaken['aggregations']['min_time_taken']['value']
 		maxTimeTaken=resMaxTimeTaken['aggregations']['max_time_taken']['value']
                 minDate=resMinTimestamp['aggregations']['min_date']['value_as_string']
